@@ -1,6 +1,6 @@
-﻿namespace VVPlayer
+﻿namespace ObjViewer
 {
-    partial class MainForm
+    partial class frmObjViewer
     {
         /// <summary>
         /// Required designer variable.
@@ -49,14 +49,15 @@
             this.chkAutoRotate = new System.Windows.Forms.CheckBox();
             this.rbARLowSpeed = new System.Windows.Forms.RadioButton();
             this.rbARMediumSpeed = new System.Windows.Forms.RadioButton();
-            this.trackBarAnimation = new System.Windows.Forms.TrackBar();
-            this.btnStartStopAnimation = new System.Windows.Forms.Button();
+            this.btnLoadObj = new System.Windows.Forms.Button();
+            this.btnLoadTexture = new System.Windows.Forms.Button();
+            this.btnTest = new System.Windows.Forms.Button();
+            this.btnTestDwarf = new System.Windows.Forms.Button();
             ((System.ComponentModel.ISupportInitialize)(this.nUDHorizontal)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.nUDVertical)).BeginInit();
             this.grpMouseWheelSensitivity.SuspendLayout();
             this.grpMouseOptions.SuspendLayout();
             this.grpAutoRotate.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.trackBarAnimation)).BeginInit();
             this.SuspendLayout();
             // 
             // glControlMain
@@ -80,7 +81,7 @@
             0,
             0,
             0});
-            this.nUDHorizontal.Location = new System.Drawing.Point(1490, 475);
+            this.nUDHorizontal.Location = new System.Drawing.Point(1490, 504);
             this.nUDHorizontal.Maximum = new decimal(new int[] {
             360,
             0,
@@ -98,7 +99,7 @@
             0,
             0,
             0});
-            this.nUDVertical.Location = new System.Drawing.Point(1490, 449);
+            this.nUDVertical.Location = new System.Drawing.Point(1490, 478);
             this.nUDVertical.Maximum = new decimal(new int[] {
             360,
             0,
@@ -126,7 +127,7 @@
             this.grpMouseWheelSensitivity.Controls.Add(this.chkInvertMouseWheel);
             this.grpMouseWheelSensitivity.Controls.Add(this.rbLowSensitivityWheel);
             this.grpMouseWheelSensitivity.Controls.Add(this.rbMediumSensitivityWheel);
-            this.grpMouseWheelSensitivity.Location = new System.Drawing.Point(1425, 138);
+            this.grpMouseWheelSensitivity.Location = new System.Drawing.Point(1425, 196);
             this.grpMouseWheelSensitivity.Name = "grpMouseWheelSensitivity";
             this.grpMouseWheelSensitivity.Size = new System.Drawing.Size(141, 120);
             this.grpMouseWheelSensitivity.TabIndex = 4;
@@ -184,7 +185,7 @@
             this.grpMouseOptions.Controls.Add(this.rbMediumSensitivity);
             this.grpMouseOptions.Controls.Add(this.chkInvertMouse);
             this.grpMouseOptions.Controls.Add(this.rbLowSensitivity);
-            this.grpMouseOptions.Location = new System.Drawing.Point(1425, 12);
+            this.grpMouseOptions.Location = new System.Drawing.Point(1425, 70);
             this.grpMouseOptions.Name = "grpMouseOptions";
             this.grpMouseOptions.Size = new System.Drawing.Size(141, 120);
             this.grpMouseOptions.TabIndex = 4;
@@ -227,7 +228,7 @@
             // btnResetView
             // 
             this.btnResetView.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-            this.btnResetView.Location = new System.Drawing.Point(1425, 420);
+            this.btnResetView.Location = new System.Drawing.Point(1425, 449);
             this.btnResetView.Name = "btnResetView";
             this.btnResetView.Size = new System.Drawing.Size(141, 23);
             this.btnResetView.TabIndex = 5;
@@ -237,7 +238,7 @@
             // lblHorizontal
             // 
             this.lblHorizontal.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-            this.lblHorizontal.Location = new System.Drawing.Point(1425, 477);
+            this.lblHorizontal.Location = new System.Drawing.Point(1425, 506);
             this.lblHorizontal.Name = "lblHorizontal";
             this.lblHorizontal.Size = new System.Drawing.Size(59, 13);
             this.lblHorizontal.TabIndex = 6;
@@ -247,7 +248,7 @@
             // lblVertical
             // 
             this.lblVertical.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-            this.lblVertical.Location = new System.Drawing.Point(1428, 451);
+            this.lblVertical.Location = new System.Drawing.Point(1428, 480);
             this.lblVertical.Name = "lblVertical";
             this.lblVertical.Size = new System.Drawing.Size(56, 13);
             this.lblVertical.TabIndex = 6;
@@ -261,7 +262,7 @@
             this.grpAutoRotate.Controls.Add(this.chkAutoRotate);
             this.grpAutoRotate.Controls.Add(this.rbARLowSpeed);
             this.grpAutoRotate.Controls.Add(this.rbARMediumSpeed);
-            this.grpAutoRotate.Location = new System.Drawing.Point(1426, 265);
+            this.grpAutoRotate.Location = new System.Drawing.Point(1426, 323);
             this.grpAutoRotate.Name = "grpAutoRotate";
             this.grpAutoRotate.Size = new System.Drawing.Size(140, 120);
             this.grpAutoRotate.TabIndex = 7;
@@ -310,32 +311,55 @@
             this.rbARMediumSpeed.Text = "Medium Speed";
             this.rbARMediumSpeed.UseVisualStyleBackColor = true;
             // 
-            // trackBarAnimation
+            // btnLoadObj
             // 
-            this.trackBarAnimation.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left) 
-            | System.Windows.Forms.AnchorStyles.Right)));
-            this.trackBarAnimation.Location = new System.Drawing.Point(12, 756);
-            this.trackBarAnimation.Name = "trackBarAnimation";
-            this.trackBarAnimation.Size = new System.Drawing.Size(1407, 45);
-            this.trackBarAnimation.TabIndex = 8;
+            this.btnLoadObj.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+            this.btnLoadObj.Location = new System.Drawing.Point(1425, 12);
+            this.btnLoadObj.Name = "btnLoadObj";
+            this.btnLoadObj.Size = new System.Drawing.Size(141, 23);
+            this.btnLoadObj.TabIndex = 8;
+            this.btnLoadObj.Text = "Load .Obj File";
+            this.btnLoadObj.UseVisualStyleBackColor = true;
             // 
-            // btnStartStopAnimation
+            // btnLoadTexture
             // 
-            this.btnStartStopAnimation.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-            this.btnStartStopAnimation.Location = new System.Drawing.Point(1425, 391);
-            this.btnStartStopAnimation.Name = "btnStartStopAnimation";
-            this.btnStartStopAnimation.Size = new System.Drawing.Size(141, 23);
-            this.btnStartStopAnimation.TabIndex = 9;
-            this.btnStartStopAnimation.Text = "Start Animation";
-            this.btnStartStopAnimation.UseVisualStyleBackColor = true;
+            this.btnLoadTexture.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+            this.btnLoadTexture.Location = new System.Drawing.Point(1425, 41);
+            this.btnLoadTexture.Name = "btnLoadTexture";
+            this.btnLoadTexture.Size = new System.Drawing.Size(141, 23);
+            this.btnLoadTexture.TabIndex = 9;
+            this.btnLoadTexture.Text = "Load Texture";
+            this.btnLoadTexture.UseVisualStyleBackColor = true;
             // 
-            // MainForm
+            // btnTest
+            // 
+            this.btnTest.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+            this.btnTest.Location = new System.Drawing.Point(1425, 530);
+            this.btnTest.Name = "btnTest";
+            this.btnTest.Size = new System.Drawing.Size(141, 23);
+            this.btnTest.TabIndex = 10;
+            this.btnTest.Text = "Test";
+            this.btnTest.UseVisualStyleBackColor = true;
+            // 
+            // btnTestDwarf
+            // 
+            this.btnTestDwarf.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+            this.btnTestDwarf.Location = new System.Drawing.Point(1425, 559);
+            this.btnTestDwarf.Name = "btnTestDwarf";
+            this.btnTestDwarf.Size = new System.Drawing.Size(141, 23);
+            this.btnTestDwarf.TabIndex = 11;
+            this.btnTestDwarf.Text = "Test Dwarf";
+            this.btnTestDwarf.UseVisualStyleBackColor = true;
+            // 
+            // frmObjViewer
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(1578, 811);
-            this.Controls.Add(this.btnStartStopAnimation);
-            this.Controls.Add(this.trackBarAnimation);
+            this.Controls.Add(this.btnTestDwarf);
+            this.Controls.Add(this.btnTest);
+            this.Controls.Add(this.btnLoadTexture);
+            this.Controls.Add(this.btnLoadObj);
             this.Controls.Add(this.grpAutoRotate);
             this.Controls.Add(this.lblVertical);
             this.Controls.Add(this.lblHorizontal);
@@ -346,7 +370,7 @@
             this.Controls.Add(this.nUDHorizontal);
             this.Controls.Add(this.glControlMain);
             this.MinimumSize = new System.Drawing.Size(892, 511);
-            this.Name = "MainForm";
+            this.Name = "frmObjViewer";
             this.Text = "Volumetric Video Player";
             ((System.ComponentModel.ISupportInitialize)(this.nUDHorizontal)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.nUDVertical)).EndInit();
@@ -356,9 +380,7 @@
             this.grpMouseOptions.PerformLayout();
             this.grpAutoRotate.ResumeLayout(false);
             this.grpAutoRotate.PerformLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.trackBarAnimation)).EndInit();
             this.ResumeLayout(false);
-            this.PerformLayout();
 
         }
 
@@ -384,8 +406,10 @@
         private System.Windows.Forms.CheckBox chkAutoRotate;
         private System.Windows.Forms.RadioButton rbARLowSpeed;
         private System.Windows.Forms.RadioButton rbARMediumSpeed;
-        private System.Windows.Forms.TrackBar trackBarAnimation;
-        private System.Windows.Forms.Button btnStartStopAnimation;
+        private System.Windows.Forms.Button btnLoadObj;
+        private System.Windows.Forms.Button btnLoadTexture;
+        private System.Windows.Forms.Button btnTest;
+        private System.Windows.Forms.Button btnTestDwarf;
     }
 }
 
