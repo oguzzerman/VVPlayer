@@ -29,10 +29,10 @@ namespace VVPlayer
             // Define Open GLParameters
             _IsGLControlLoaded = false;
             _IsAnimationRunning = false;
-
             _TextureDataType = eTextureDataType.BMP;
             _TextureExtension = eTextureExtension.JPG;
 
+            // Set current directory for open file dialog
             _CurrentDirectory = Environment.GetFolderPath(Environment.SpecialFolder.Desktop);
 
             SetDefaultViewParameters();
@@ -42,8 +42,8 @@ namespace VVPlayer
             Rec2Form();
 
 
-            this.FormClosing += MainForm_FormClosing;
-
+            // Subscribe to events
+            this.FormClosing += MainForm_FormClosing; // Subscribe just once
             SubscribeToEvents();
         }
 
@@ -78,7 +78,6 @@ namespace VVPlayer
         private List<TextureData> _TextureData;
         private Obj _SelectedObjFile;
         private TextureData _SelectedTextureData;
-
         private int _TextID;
         private eTextureDataType _TextureDataType;
         private eTextureExtension _TextureExtension;
@@ -115,6 +114,7 @@ namespace VVPlayer
             Matrix4 perspective = Matrix4.CreatePerspectiveFieldOfView((float)1.04, 4 / 3, 1, 10000); // Setup Perspective
             Matrix4 lookAt = Matrix4.LookAt((float)_LookAtDist, 1, 0, 0, 0, 0, 0, 1, 0); //Setup Camera
             GL.MatrixMode(MatrixMode.Projection); // Load Perspective
+
             GL.LoadIdentity();
             GL.LoadMatrix(ref perspective);
             GL.MatrixMode(MatrixMode.Modelview); // Load Camera
@@ -123,7 +123,6 @@ namespace VVPlayer
             GL.Viewport(0, 0, glControlMain.Width, glControlMain.Height); // Size of the Control
             GL.Enable(EnableCap.DepthTest); // Enable Correct Z Drawings
             GL.DepthFunc(DepthFunction.Less); // Enable Correct Z Drawings
-
             // Rotating
             GL.Rotate(_DirXRotation, 0, 0, 1);
             GL.Rotate(_DirYRotation, 0, 1, 0);
@@ -151,17 +150,15 @@ namespace VVPlayer
 
                 if (_SelectedObjFile.FaceList.First().VertexIndexList.Count() == 3)
                 {
-                    GL.Begin(BeginMode.Triangles);
-
+                    GL.Begin(PrimitiveType.Triangles);
                 }
                 else if (_SelectedObjFile.FaceList.First().VertexIndexList.Count() == 4)
                 {
-                    GL.Begin(BeginMode.Quads);
-
+                    GL.Begin(PrimitiveType.Quads);
                 }
                 else
                 {
-                    GL.Begin(BeginMode.Points);
+                    GL.Begin(PrimitiveType.Points);
                 }
 
                 GL.Color3(Color.White);
@@ -186,17 +183,15 @@ namespace VVPlayer
             {
                 if (_SelectedObjFile.FaceList.First().VertexIndexList.Count() == 3)
                 {
-                    GL.Begin(BeginMode.Triangles);
-
+                    GL.Begin(PrimitiveType.Triangles);
                 }
                 else if (_SelectedObjFile.FaceList.First().VertexIndexList.Count() == 4)
                 {
-                    GL.Begin(BeginMode.Quads);
-
+                    GL.Begin(PrimitiveType.Quads);
                 }
                 else
                 {
-                    GL.Begin(BeginMode.Points);
+                    GL.Begin(PrimitiveType.Points);
                 }
 
                 for (int i = 0; i < _SelectedObjFile.FaceList.Count; i++)
@@ -211,7 +206,6 @@ namespace VVPlayer
                                    _SelectedObjFile.VertexList[face.VertexIndexList[j] - 1].Z);
                     }
                 }
-
             }
 
             GL.End();
@@ -377,7 +371,6 @@ namespace VVPlayer
                             nUDYRotation.Value = Convert.ToDecimal(_DirYRotation);
                         });
 
-
                         this.nUDZRotation.Invoke((MethodInvoker)delegate {
                             // Running on the UI thread
                             nUDZRotation.Value = Convert.ToDecimal(_DirZRotation);
@@ -397,7 +390,6 @@ namespace VVPlayer
 
             cmbTextureMethod.SelectedIndex = (int)_TextureDataType;
             cmbTextureExtension.SelectedIndex = (int)_TextureExtension;
-
         }
 
         private void Form2Rec()
@@ -539,8 +531,6 @@ namespace VVPlayer
                         texturePath = texturePath + ".png";
                     }
 
-
-
                     if (File.Exists(texturePath))
                     {
                         _TextureData.Add(new TextureData(texturePath, _TextureDataType));
@@ -552,6 +542,7 @@ namespace VVPlayer
                 trackBarAnimation.Minimum = 0;
                 trackBarAnimation.Maximum = _ObjFiles.Count() - 1;
                 trackBarAnimation.Value = 0;
+
                 SetSelectedObj(0);
 
                 SetDefaultViewParameters();
@@ -613,6 +604,7 @@ namespace VVPlayer
             _DirXRotation = Convert.ToDouble(nUDXRotation.Value);
             _DirYRotation = Convert.ToDouble(nUDYRotation.Value);
             _DirZRotation = Convert.ToDouble(nUDZRotation.Value);
+
             glControlMain.Invalidate();
         }
 
@@ -646,12 +638,13 @@ namespace VVPlayer
                     sensitivity = 10;
                 }
 
-
                 _DirXRotation += -dir * Convert.ToDouble(_InitialPoint.Y - newPt.Y) / sensitivity;
                 _DirYRotation += dir * Convert.ToDouble(_InitialPoint.X - newPt.X) / sensitivity;
 
                 Rec2Form();
+
                 glControlMain.Invalidate();
+
                 SubscribeToEvents();
             }
         }
@@ -659,10 +652,7 @@ namespace VVPlayer
         private void GlControlMain_MouseDown(object sender, MouseEventArgs e)
         {
             _InitialPoint = e.Location;
-            //if (!chkAutoRotate.Checked)
-            //{
             _IsGLControlClicked = true;
-            //}
         }
 
         private void GlControlMain_MouseUp(object sender, MouseEventArgs e)
@@ -708,7 +698,6 @@ namespace VVPlayer
         {
             if (_IsGLControlLoaded)
             {
-                //DrawPyramid();
                 DrawSelectedObjFile();
             }
         }
@@ -728,7 +717,6 @@ namespace VVPlayer
                 _PlayVVideo.Abort();
                 btnStartStopAnimation.Text = "Start Animation";
             }
-
         }
 
         private void TrackBarAnimation_ValueChanged(object sender, EventArgs e)
