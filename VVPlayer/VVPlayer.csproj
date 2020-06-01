@@ -36,6 +36,10 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="GLibrary, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>.\GLibrary.dll</HintPath>
+    </Reference>
     <Reference Include="ObjParser">
       <HintPath>.\ObjParser.dll</HintPath>
     </Reference>

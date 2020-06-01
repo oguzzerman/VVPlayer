@@ -10,6 +10,7 @@ using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
 using System.Windows.Forms;
+using GLibrary;
 using ObjParser;
 using OpenTK;
 using OpenTK.Graphics;
@@ -76,13 +77,9 @@ namespace VVPlayer
 
         // OBJ Related Fields
         private List<Obj> _ObjFiles;
-        private List<BitmapData> _TextureData;
-        private List<float[]> _TextureDataFloat;
-        private List<Mtl> _MtlData;
+        private List<TextureData> _TextureData;
         private Obj _SelectedObjFile;
-        private BitmapData _SelectedTextureData;
-        private float[] _SelectedTextureDataFloat;
-        private Mtl _SelectedMtlData;
+        private TextureData _SelectedTextureData;
 
         private int _TextID;
         #endregion
@@ -98,186 +95,160 @@ namespace VVPlayer
         private void LoadObjFile()
         {
             _ObjFiles = new List<Obj>();
-            _TextureData = new List<BitmapData>();
-            _MtlData = new List<Mtl>();
-            _TextureDataFloat = new List<float[]>();
+            _TextureData = new List<TextureData>();
+
 
             Obj obj1 = new Obj();
             string[] lines = File.ReadAllLines("D:\\Develop\\Source\\GL\\matis_hd_obj\\Frame_00001_textured.obj");
             obj1.LoadObj(lines);
 
             _ObjFiles.Add(obj1);
-            _TextureData.Add(LoadImage("D:\\Develop\\Source\\GL\\matis_hd_obj\\Frame_00001_textured.jpg"));
-            _TextureDataFloat.Add(LoadTexture("D:\\Develop\\Source\\GL\\matis_hd_obj\\Frame_00001_textured.jpg"));
+            _TextureData.Add(new TextureData("D:\\Develop\\Source\\GL\\matis_hd_obj\\Frame_00001_textured.jpg"));
 
 
             Obj obj2 = new Obj();
             lines = File.ReadAllLines("D:\\Develop\\Source\\GL\\matis_hd_obj\\Frame_00002_textured.obj");
             obj2.LoadObj(lines);
             _ObjFiles.Add(obj2);
-            _TextureData.Add(LoadImage("D:\\Develop\\Source\\GL\\matis_hd_obj\\Frame_00002_textured.jpg"));
-            _TextureDataFloat.Add(LoadTexture("D:\\Develop\\Source\\GL\\matis_hd_obj\\Frame_00002_textured.jpg"));
+            _TextureData.Add(new TextureData("D:\\Develop\\Source\\GL\\matis_hd_obj\\Frame_00002_textured.jpg"));
 
             Obj obj3 = new Obj();
             lines = File.ReadAllLines("D:\\Develop\\Source\\GL\\matis_hd_obj\\Frame_00003_textured.obj");
             obj3.LoadObj(lines);
             _ObjFiles.Add(obj3);
-            _TextureData.Add(LoadImage("D:\\Develop\\Source\\GL\\matis_hd_obj\\Frame_00003_textured.jpg"));
-            _TextureDataFloat.Add(LoadTexture("D:\\Develop\\Source\\GL\\matis_hd_obj\\Frame_00003_textured.jpg"));
+            _TextureData.Add(new TextureData("D:\\Develop\\Source\\GL\\matis_hd_obj\\Frame_00003_textured.jpg"));
 
             Obj obj4 = new Obj();
             lines = File.ReadAllLines("D:\\Develop\\Source\\GL\\matis_hd_obj\\Frame_00004_textured.obj");
             obj4.LoadObj(lines);
             _ObjFiles.Add(obj4);
-            _TextureData.Add(LoadImage("D:\\Develop\\Source\\GL\\matis_hd_obj\\Frame_00004_textured.jpg"));
-            _TextureDataFloat.Add(LoadTexture("D:\\Develop\\Source\\GL\\matis_hd_obj\\Frame_00004_textured.jpg"));
+            _TextureData.Add(new TextureData("D:\\Develop\\Source\\GL\\matis_hd_obj\\Frame_00004_textured.jpg"));
 
             Obj obj5 = new Obj();
             lines = File.ReadAllLines("D:\\Develop\\Source\\GL\\matis_hd_obj\\Frame_00005_textured.obj");
             obj5.LoadObj(lines);
             _ObjFiles.Add(obj5);
-            _TextureData.Add(LoadImage("D:\\Develop\\Source\\GL\\matis_hd_obj\\Frame_00005_textured.jpg"));
-            _TextureDataFloat.Add(LoadTexture("D:\\Develop\\Source\\GL\\matis_hd_obj\\Frame_00005_textured.jpg"));
+            _TextureData.Add(new TextureData("D:\\Develop\\Source\\GL\\matis_hd_obj\\Frame_00005_textured.jpg"));
 
             Obj obj6 = new Obj();
             lines = File.ReadAllLines("D:\\Develop\\Source\\GL\\matis_hd_obj\\Frame_00006_textured.obj");
             obj6.LoadObj(lines);
             _ObjFiles.Add(obj6);
-            _TextureData.Add(LoadImage("D:\\Develop\\Source\\GL\\matis_hd_obj\\Frame_00006_textured.jpg"));
-            _TextureDataFloat.Add(LoadTexture("D:\\Develop\\Source\\GL\\matis_hd_obj\\Frame_00006_textured.jpg"));
+            _TextureData.Add(new TextureData("D:\\Develop\\Source\\GL\\matis_hd_obj\\Frame_00006_textured.jpg"));
 
             Obj obj7 = new Obj();
             lines = File.ReadAllLines("D:\\Develop\\Source\\GL\\matis_hd_obj\\Frame_00007_textured.obj");
             obj7.LoadObj(lines);
             _ObjFiles.Add(obj7);
-            _TextureData.Add(LoadImage("D:\\Develop\\Source\\GL\\matis_hd_obj\\Frame_00007_textured.jpg"));
-            _TextureDataFloat.Add(LoadTexture("D:\\Develop\\Source\\GL\\matis_hd_obj\\Frame_00007_textured.jpg"));
+            _TextureData.Add(new TextureData("D:\\Develop\\Source\\GL\\matis_hd_obj\\Frame_00007_textured.jpg"));
 
             Obj obj8 = new Obj();
             lines = File.ReadAllLines("D:\\Develop\\Source\\GL\\matis_hd_obj\\Frame_00008_textured.obj");
             obj8.LoadObj(lines);
             _ObjFiles.Add(obj8);
-            _TextureData.Add(LoadImage("D:\\Develop\\Source\\GL\\matis_hd_obj\\Frame_00008_textured.jpg"));
-            _TextureDataFloat.Add(LoadTexture("D:\\Develop\\Source\\GL\\matis_hd_obj\\Frame_00008_textured.jpg"));
+            _TextureData.Add(new TextureData("D:\\Develop\\Source\\GL\\matis_hd_obj\\Frame_00008_textured.jpg"));
 
             Obj obj9 = new Obj();
             lines = File.ReadAllLines("D:\\Develop\\Source\\GL\\matis_hd_obj\\Frame_00009_textured.obj");
             obj9.LoadObj(lines);
             _ObjFiles.Add(obj9);
-            _TextureData.Add(LoadImage("D:\\Develop\\Source\\GL\\matis_hd_obj\\Frame_00009_textured.jpg"));
-            _TextureDataFloat.Add(LoadTexture("D:\\Develop\\Source\\GL\\matis_hd_obj\\Frame_00009_textured.jpg"));
+            _TextureData.Add(new TextureData("D:\\Develop\\Source\\GL\\matis_hd_obj\\Frame_00009_textured.jpg"));
 
             Obj obj10 = new Obj();
             lines = File.ReadAllLines("D:\\Develop\\Source\\GL\\matis_hd_obj\\Frame_00010_textured.obj");
             obj10.LoadObj(lines);
             _ObjFiles.Add(obj10);
-            _TextureData.Add(LoadImage("D:\\Develop\\Source\\GL\\matis_hd_obj\\Frame_00010_textured.jpg"));
-            _TextureDataFloat.Add(LoadTexture("D:\\Develop\\Source\\GL\\matis_hd_obj\\Frame_00010_textured.jpg"));
+            _TextureData.Add(new TextureData("D:\\Develop\\Source\\GL\\matis_hd_obj\\Frame_00010_textured.jpg"));
 
             Obj obj11 = new Obj();
             lines = File.ReadAllLines("D:\\Develop\\Source\\GL\\matis_hd_obj\\Frame_00011_textured.obj");
             obj11.LoadObj(lines);
             _ObjFiles.Add(obj11);
-            _TextureData.Add(LoadImage("D:\\Develop\\Source\\GL\\matis_hd_obj\\Frame_00011_textured.jpg"));
-            _TextureDataFloat.Add(LoadTexture("D:\\Develop\\Source\\GL\\matis_hd_obj\\Frame_00011_textured.jpg"));
+            _TextureData.Add(new TextureData("D:\\Develop\\Source\\GL\\matis_hd_obj\\Frame_00011_textured.jpg"));
 
             Obj obj12 = new Obj();
             lines = File.ReadAllLines("D:\\Develop\\Source\\GL\\matis_hd_obj\\Frame_00012_textured.obj");
             obj12.LoadObj(lines);
             _ObjFiles.Add(obj12);
-            _TextureData.Add(LoadImage("D:\\Develop\\Source\\GL\\matis_hd_obj\\Frame_00012_textured.jpg"));
-            _TextureDataFloat.Add(LoadTexture("D:\\Develop\\Source\\GL\\matis_hd_obj\\Frame_00012_textured.jpg"));
+            _TextureData.Add(new TextureData("D:\\Develop\\Source\\GL\\matis_hd_obj\\Frame_00012_textured.jpg"));
 
             Obj obj13 = new Obj();
             lines = File.ReadAllLines("D:\\Develop\\Source\\GL\\matis_hd_obj\\Frame_00013_textured.obj");
             obj13.LoadObj(lines);
             _ObjFiles.Add(obj13);
-            _TextureData.Add(LoadImage("D:\\Develop\\Source\\GL\\matis_hd_obj\\Frame_00013_textured.jpg"));
-            _TextureDataFloat.Add(LoadTexture("D:\\Develop\\Source\\GL\\matis_hd_obj\\Frame_00013_textured.jpg"));
+            _TextureData.Add(new TextureData("D:\\Develop\\Source\\GL\\matis_hd_obj\\Frame_00013_textured.jpg"));
 
             Obj obj14 = new Obj();
             lines = File.ReadAllLines("D:\\Develop\\Source\\GL\\matis_hd_obj\\Frame_00014_textured.obj");
             obj14.LoadObj(lines);
             _ObjFiles.Add(obj14);
-            _TextureData.Add(LoadImage("D:\\Develop\\Source\\GL\\matis_hd_obj\\Frame_00014_textured.jpg"));
-            _TextureDataFloat.Add(LoadTexture("D:\\Develop\\Source\\GL\\matis_hd_obj\\Frame_00014_textured.jpg"));
+            _TextureData.Add(new TextureData("D:\\Develop\\Source\\GL\\matis_hd_obj\\Frame_00014_textured.jpg"));
 
             Obj obj15 = new Obj();
             lines = File.ReadAllLines("D:\\Develop\\Source\\GL\\matis_hd_obj\\Frame_00015_textured.obj");
             obj15.LoadObj(lines);
             _ObjFiles.Add(obj15);
-            _TextureData.Add(LoadImage("D:\\Develop\\Source\\GL\\matis_hd_obj\\Frame_00015_textured.jpg"));
-            _TextureDataFloat.Add(LoadTexture("D:\\Develop\\Source\\GL\\matis_hd_obj\\Frame_00015_textured.jpg"));
+            _TextureData.Add(new TextureData("D:\\Develop\\Source\\GL\\matis_hd_obj\\Frame_00015_textured.jpg"));
 
             Obj obj16 = new Obj();
             lines = File.ReadAllLines("D:\\Develop\\Source\\GL\\matis_hd_obj\\Frame_00016_textured.obj");
             obj16.LoadObj(lines);
             _ObjFiles.Add(obj16);
-            _TextureData.Add(LoadImage("D:\\Develop\\Source\\GL\\matis_hd_obj\\Frame_00016_textured.jpg"));
-            _TextureDataFloat.Add(LoadTexture("D:\\Develop\\Source\\GL\\matis_hd_obj\\Frame_00016_textured.jpg"));
+            _TextureData.Add(new TextureData("D:\\Develop\\Source\\GL\\matis_hd_obj\\Frame_00016_textured.jpg"));
 
             Obj obj17 = new Obj();
             lines = File.ReadAllLines("D:\\Develop\\Source\\GL\\matis_hd_obj\\Frame_00017_textured.obj");
             obj17.LoadObj(lines);
             _ObjFiles.Add(obj17);
-            _TextureData.Add(LoadImage("D:\\Develop\\Source\\GL\\matis_hd_obj\\Frame_00017_textured.jpg"));
-            _TextureDataFloat.Add(LoadTexture("D:\\Develop\\Source\\GL\\matis_hd_obj\\Frame_00017_textured.jpg"));
+            _TextureData.Add(new TextureData("D:\\Develop\\Source\\GL\\matis_hd_obj\\Frame_00017_textured.jpg"));
 
             Obj obj18 = new Obj();
             lines = File.ReadAllLines("D:\\Develop\\Source\\GL\\matis_hd_obj\\Frame_00018_textured.obj");
             obj18.LoadObj(lines);
             _ObjFiles.Add(obj18);
-            _TextureData.Add(LoadImage("D:\\Develop\\Source\\GL\\matis_hd_obj\\Frame_00018_textured.jpg"));
-            _TextureDataFloat.Add(LoadTexture("D:\\Develop\\Source\\GL\\matis_hd_obj\\Frame_00018_textured.jpg"));
+            _TextureData.Add(new TextureData("D:\\Develop\\Source\\GL\\matis_hd_obj\\Frame_00018_textured.jpg"));
 
             Obj obj19 = new Obj();
             lines = File.ReadAllLines("D:\\Develop\\Source\\GL\\matis_hd_obj\\Frame_00019_textured.obj");
             obj19.LoadObj(lines);
             _ObjFiles.Add(obj19);
-            _TextureData.Add(LoadImage("D:\\Develop\\Source\\GL\\matis_hd_obj\\Frame_00019_textured.jpg"));
-            _TextureDataFloat.Add(LoadTexture("D:\\Develop\\Source\\GL\\matis_hd_obj\\Frame_00019_textured.jpg"));
+            _TextureData.Add(new TextureData("D:\\Develop\\Source\\GL\\matis_hd_obj\\Frame_00019_textured.jpg"));
 
             Obj obj20 = new Obj();
             lines = File.ReadAllLines("D:\\Develop\\Source\\GL\\matis_hd_obj\\Frame_00020_textured.obj");
             obj20.LoadObj(lines);
             _ObjFiles.Add(obj20);
-            _TextureData.Add(LoadImage("D:\\Develop\\Source\\GL\\matis_hd_obj\\Frame_00020_textured.jpg"));
-            _TextureDataFloat.Add(LoadTexture("D:\\Develop\\Source\\GL\\matis_hd_obj\\Frame_00020_textured.jpg"));
+            _TextureData.Add(new TextureData("D:\\Develop\\Source\\GL\\matis_hd_obj\\Frame_00020_textured.jpg"));
 
             Obj obj21 = new Obj();
             lines = File.ReadAllLines("D:\\Develop\\Source\\GL\\matis_hd_obj\\Frame_00021_textured.obj");
             obj21.LoadObj(lines);
             _ObjFiles.Add(obj21);
-            _TextureData.Add(LoadImage("D:\\Develop\\Source\\GL\\matis_hd_obj\\Frame_00021_textured.jpg"));
-            _TextureDataFloat.Add(LoadTexture("D:\\Develop\\Source\\GL\\matis_hd_obj\\Frame_00021_textured.jpg"));
+            _TextureData.Add(new TextureData("D:\\Develop\\Source\\GL\\matis_hd_obj\\Frame_00021_textured.jpg"));
 
             Obj obj22 = new Obj();
             lines = File.ReadAllLines("D:\\Develop\\Source\\GL\\matis_hd_obj\\Frame_00022_textured.obj");
             obj22.LoadObj(lines);
             _ObjFiles.Add(obj22);
-            _TextureData.Add(LoadImage("D:\\Develop\\Source\\GL\\matis_hd_obj\\Frame_00022_textured.jpg"));
-            _TextureDataFloat.Add(LoadTexture("D:\\Develop\\Source\\GL\\matis_hd_obj\\Frame_00022_textured.jpg"));
+            _TextureData.Add(new TextureData("D:\\Develop\\Source\\GL\\matis_hd_obj\\Frame_00022_textured.jpg"));
 
             Obj obj23 = new Obj();
             lines = File.ReadAllLines("D:\\Develop\\Source\\GL\\matis_hd_obj\\Frame_00023_textured.obj");
             obj23.LoadObj(lines);
             _ObjFiles.Add(obj23);
-            _TextureData.Add(LoadImage("D:\\Develop\\Source\\GL\\matis_hd_obj\\Frame_00023_textured.jpg"));
-            _TextureDataFloat.Add(LoadTexture("D:\\Develop\\Source\\GL\\matis_hd_obj\\Frame_00023_textured.jpg"));
+            _TextureData.Add(new TextureData("D:\\Develop\\Source\\GL\\matis_hd_obj\\Frame_00023_textured.jpg"));
 
             Obj obj24 = new Obj();
             lines = File.ReadAllLines("D:\\Develop\\Source\\GL\\matis_hd_obj\\Frame_00024_textured.obj");
             obj24.LoadObj(lines);
             _ObjFiles.Add(obj24);
-            _TextureData.Add(LoadImage("D:\\Develop\\Source\\GL\\matis_hd_obj\\Frame_00024_textured.jpg"));
-            _TextureDataFloat.Add(LoadTexture("D:\\Develop\\Source\\GL\\matis_hd_obj\\Frame_00024_textured.jpg"));
+            _TextureData.Add(new TextureData("D:\\Develop\\Source\\GL\\matis_hd_obj\\Frame_00024_textured.jpg"));
 
             Obj obj25 = new Obj();
             lines = File.ReadAllLines("D:\\Develop\\Source\\GL\\matis_hd_obj\\Frame_00025_textured.obj");
             obj25.LoadObj(lines);
             _ObjFiles.Add(obj25);
-            _TextureData.Add(LoadImage("D:\\Develop\\Source\\GL\\matis_hd_obj\\Frame_00025_textured.jpg"));
-            _TextureDataFloat.Add(LoadTexture("D:\\Develop\\Source\\GL\\matis_hd_obj\\Frame_00025_textured.jpg"));
+            _TextureData.Add(new TextureData("D:\\Develop\\Source\\GL\\matis_hd_obj\\Frame_00025_textured.jpg"));
 
             SetSelectedObj(0);
 
@@ -294,10 +265,8 @@ namespace VVPlayer
 
         private void SetSelectedObj(int index)
         {
-            _SelectedTextureDataFloat = _TextureDataFloat[index];
             _SelectedObjFile = _ObjFiles[index];
             _SelectedTextureData = _TextureData[index];
-            //_SelectedMtlData = _MtlData[index];
         }
 
         private void DrawSelectedObjFile()
@@ -330,12 +299,12 @@ namespace VVPlayer
             // Texture Info
             GL.Enable(EnableCap.Texture2D);
 
-            if (_SelectedTextureDataFloat != null)
+            if (_SelectedTextureData != null)
             {
 
                 GL.DeleteTexture(_TextID);
 
-                _TextID = InitTextures(_SelectedTextureDataFloat);
+                _TextID = InitTextures();
                 //BindTexture(_TextID);
 
                 GL.Begin(BeginMode.Triangles);
@@ -383,39 +352,7 @@ namespace VVPlayer
             glControlMain.SwapBuffers();
         }
 
-        private void UpdateGL()
-        {
-
-        }
-
-        public virtual void BindTexture(int VertexArray)
-        {
-            GL.BindVertexArray(VertexArray);
-            GL.BindTexture(TextureTarget.Texture2D, _TextID);
-        }
-
-        private int InitTexturesAlt1(float[] data)
-        {
-            int texture;
-            GL.ClearColor(Color.MidnightBlue);
-            GL.Enable(EnableCap.Texture2D);
-
-            GL.Hint(HintTarget.PerspectiveCorrectionHint, HintMode.Nicest);
-
-            GL.GenTextures(1, out texture);
-            GL.BindTexture(TextureTarget.Texture2D, texture);
-            GL.TexParameter(TextureTarget.Texture2D, TextureParameterName.TextureMinFilter, (int)TextureMinFilter.Linear);
-            GL.TexParameter(TextureTarget.Texture2D, TextureParameterName.TextureMagFilter, (int)TextureMagFilter.Linear);
-
-
-            GL.TexImage2D(TextureTarget.Texture2D, 0, PixelInternalFormat.Rgba, _SelectedTextureData.Width, _SelectedTextureData.Height, 0,
-                OpenTK.Graphics.OpenGL.PixelFormat.Bgra, PixelType.UnsignedByte, _SelectedTextureData.Scan0);
-
-            return texture;
-            // data not needed from here on, OpenGL has the data
-        }
-
-        private int InitTextures(float[] data)
+        private int InitTextures()
         {
             int texture;
             GL.CreateTextures(TextureTarget.Texture2D, 1, out texture);
@@ -435,56 +372,9 @@ namespace VVPlayer
                 _SelectedTextureData.Height,
                 OpenTK.Graphics.OpenGL.PixelFormat.Rgba,
                 PixelType.Float,
-                data);
+                _SelectedTextureData.Data);
             return texture;
             // data not needed from here on, OpenGL has the data
-        }
-        private float[] LoadTexture(string fileName)
-        {
-            float[] r;
-            using (var bmp = ConvertToBitmap(fileName))
-            {
-                int width = bmp.Width;
-                int height = bmp.Height;
-                r = new float[width * height * 4];
-                int index = 0;
-                for (int y = 0; y < height; y++)
-                {
-                    for (int x = 0; x < width; x++)
-                    {
-                        var pixel = bmp.GetPixel(x, y);
-                        r[index++] = pixel.R / 255f;
-                        r[index++] = pixel.G / 255f;
-                        r[index++] = pixel.B / 255f;
-                        r[index++] = pixel.A / 255f;
-                    }
-                }
-            }
-            return r;
-        }
-
-        BitmapData LoadImage(string path)
-        {
-            Bitmap bmp = new Bitmap(ConvertToBitmap(path));
-            Rectangle rect = new Rectangle(0, 0, bmp.Width, bmp.Height);
-
-            BitmapData ret = bmp.LockBits(rect, ImageLockMode.ReadOnly, System.Drawing.Imaging.PixelFormat.Format32bppArgb);
-            bmp.UnlockBits(ret);
-
-            return ret;
-        }
-
-        public Bitmap ConvertToBitmap(string fileName)
-        {
-            Bitmap bitmap;
-            using (Stream bmpStream = System.IO.File.Open(fileName, System.IO.FileMode.Open))
-            {
-                Image image = Image.FromStream(bmpStream);
-
-                bitmap = new Bitmap(image);
-
-            }
-            return bitmap;
         }
 
         private void SetDefaultViewParameters()
@@ -783,23 +673,24 @@ namespace VVPlayer
 
             if (rbLowSensitivityWheel.Checked)
             {
-                sensitivity = 50;
+                sensitivity = 0.05;
             }
             else if (rbMediumSensitivityWheel.Checked)
             {
-                sensitivity = 10;
+                sensitivity = 0.2;
             }
             else
             {
-                sensitivity = 1;
+                sensitivity = 0.5;
             }
 
-            _LookAtDist += dir * e.Delta / sensitivity;
+            _LookAtDist += dir * Math.Sign(e.Delta) * _LookAtDist * sensitivity;
 
             if (_LookAtDist < 0)
             {
                 _LookAtDist = 0;
             }
+
             glControlMain.Invalidate();
         }
 
