@@ -28,8 +28,12 @@ namespace VVPlayer
 
             // Define Open GLParameters
             _IsGLControlLoaded = false;
+            _IsAnimationRunning = false;
 
-            LoadObjFile();
+            _TextureDataType = eTextureDataType.BMP;
+            _TextureExtension = eTextureExtension.JPG;
+
+            _CurrentDirectory = Environment.GetFolderPath(Environment.SpecialFolder.Desktop);
 
             SetDefaultViewParameters();
 
@@ -37,14 +41,7 @@ namespace VVPlayer
             PrepareThreads();
             Rec2Form();
 
-            if (chkAutoRotate.Checked)
-            {
-                _AutoRotate.Start();
-            }
 
-            //_PlayVVideo.Start();
-            btnStartStopAnimation.Text = "Start Animation";
-            _IsAnimationRunning = false;
             this.FormClosing += MainForm_FormClosing;
 
             SubscribeToEvents();
@@ -68,8 +65,9 @@ namespace VVPlayer
         private Thread _PlayVVideo;
 
         // View Related Fields
-        private double _VerticalRotation;
-        private double _HorizontalRotation;
+        private double _DirXRotation;
+        private double _DirYRotation;
+        private double _DirZRotation;
         private double _LookAtDist;
         private float _AverageX;
         private float _AverageY;
@@ -82,6 +80,11 @@ namespace VVPlayer
         private TextureData _SelectedTextureData;
 
         private int _TextID;
+        private eTextureDataType _TextureDataType;
+        private eTextureExtension _TextureExtension;
+
+        private string _CurrentDirectory;
+
         #endregion
 
         #region Public Methods
@@ -90,183 +93,14 @@ namespace VVPlayer
 
         #region Private Methods
 
-        #region GL Related
-
-        private void LoadObjFile()
-        {
-            _ObjFiles = new List<Obj>();
-            _TextureData = new List<TextureData>();
-
-
-            Obj obj1 = new Obj();
-            string[] lines = File.ReadAllLines("D:\\Develop\\Source\\GL\\matis_hd_obj\\Frame_00001_textured.obj");
-            obj1.LoadObj(lines);
-
-            _ObjFiles.Add(obj1);
-            _TextureData.Add(new TextureData("D:\\Develop\\Source\\GL\\matis_hd_obj\\Frame_00001_textured.jpg"));
-
-
-            Obj obj2 = new Obj();
-            lines = File.ReadAllLines("D:\\Develop\\Source\\GL\\matis_hd_obj\\Frame_00002_textured.obj");
-            obj2.LoadObj(lines);
-            _ObjFiles.Add(obj2);
-            _TextureData.Add(new TextureData("D:\\Develop\\Source\\GL\\matis_hd_obj\\Frame_00002_textured.jpg"));
-
-            Obj obj3 = new Obj();
-            lines = File.ReadAllLines("D:\\Develop\\Source\\GL\\matis_hd_obj\\Frame_00003_textured.obj");
-            obj3.LoadObj(lines);
-            _ObjFiles.Add(obj3);
-            _TextureData.Add(new TextureData("D:\\Develop\\Source\\GL\\matis_hd_obj\\Frame_00003_textured.jpg"));
-
-            Obj obj4 = new Obj();
-            lines = File.ReadAllLines("D:\\Develop\\Source\\GL\\matis_hd_obj\\Frame_00004_textured.obj");
-            obj4.LoadObj(lines);
-            _ObjFiles.Add(obj4);
-            _TextureData.Add(new TextureData("D:\\Develop\\Source\\GL\\matis_hd_obj\\Frame_00004_textured.jpg"));
-
-            Obj obj5 = new Obj();
-            lines = File.ReadAllLines("D:\\Develop\\Source\\GL\\matis_hd_obj\\Frame_00005_textured.obj");
-            obj5.LoadObj(lines);
-            _ObjFiles.Add(obj5);
-            _TextureData.Add(new TextureData("D:\\Develop\\Source\\GL\\matis_hd_obj\\Frame_00005_textured.jpg"));
-
-            Obj obj6 = new Obj();
-            lines = File.ReadAllLines("D:\\Develop\\Source\\GL\\matis_hd_obj\\Frame_00006_textured.obj");
-            obj6.LoadObj(lines);
-            _ObjFiles.Add(obj6);
-            _TextureData.Add(new TextureData("D:\\Develop\\Source\\GL\\matis_hd_obj\\Frame_00006_textured.jpg"));
-
-            Obj obj7 = new Obj();
-            lines = File.ReadAllLines("D:\\Develop\\Source\\GL\\matis_hd_obj\\Frame_00007_textured.obj");
-            obj7.LoadObj(lines);
-            _ObjFiles.Add(obj7);
-            _TextureData.Add(new TextureData("D:\\Develop\\Source\\GL\\matis_hd_obj\\Frame_00007_textured.jpg"));
-
-            Obj obj8 = new Obj();
-            lines = File.ReadAllLines("D:\\Develop\\Source\\GL\\matis_hd_obj\\Frame_00008_textured.obj");
-            obj8.LoadObj(lines);
-            _ObjFiles.Add(obj8);
-            _TextureData.Add(new TextureData("D:\\Develop\\Source\\GL\\matis_hd_obj\\Frame_00008_textured.jpg"));
-
-            Obj obj9 = new Obj();
-            lines = File.ReadAllLines("D:\\Develop\\Source\\GL\\matis_hd_obj\\Frame_00009_textured.obj");
-            obj9.LoadObj(lines);
-            _ObjFiles.Add(obj9);
-            _TextureData.Add(new TextureData("D:\\Develop\\Source\\GL\\matis_hd_obj\\Frame_00009_textured.jpg"));
-
-            Obj obj10 = new Obj();
-            lines = File.ReadAllLines("D:\\Develop\\Source\\GL\\matis_hd_obj\\Frame_00010_textured.obj");
-            obj10.LoadObj(lines);
-            _ObjFiles.Add(obj10);
-            _TextureData.Add(new TextureData("D:\\Develop\\Source\\GL\\matis_hd_obj\\Frame_00010_textured.jpg"));
-
-            Obj obj11 = new Obj();
-            lines = File.ReadAllLines("D:\\Develop\\Source\\GL\\matis_hd_obj\\Frame_00011_textured.obj");
-            obj11.LoadObj(lines);
-            _ObjFiles.Add(obj11);
-            _TextureData.Add(new TextureData("D:\\Develop\\Source\\GL\\matis_hd_obj\\Frame_00011_textured.jpg"));
-
-            Obj obj12 = new Obj();
-            lines = File.ReadAllLines("D:\\Develop\\Source\\GL\\matis_hd_obj\\Frame_00012_textured.obj");
-            obj12.LoadObj(lines);
-            _ObjFiles.Add(obj12);
-            _TextureData.Add(new TextureData("D:\\Develop\\Source\\GL\\matis_hd_obj\\Frame_00012_textured.jpg"));
-
-            Obj obj13 = new Obj();
-            lines = File.ReadAllLines("D:\\Develop\\Source\\GL\\matis_hd_obj\\Frame_00013_textured.obj");
-            obj13.LoadObj(lines);
-            _ObjFiles.Add(obj13);
-            _TextureData.Add(new TextureData("D:\\Develop\\Source\\GL\\matis_hd_obj\\Frame_00013_textured.jpg"));
-
-            Obj obj14 = new Obj();
-            lines = File.ReadAllLines("D:\\Develop\\Source\\GL\\matis_hd_obj\\Frame_00014_textured.obj");
-            obj14.LoadObj(lines);
-            _ObjFiles.Add(obj14);
-            _TextureData.Add(new TextureData("D:\\Develop\\Source\\GL\\matis_hd_obj\\Frame_00014_textured.jpg"));
-
-            Obj obj15 = new Obj();
-            lines = File.ReadAllLines("D:\\Develop\\Source\\GL\\matis_hd_obj\\Frame_00015_textured.obj");
-            obj15.LoadObj(lines);
-            _ObjFiles.Add(obj15);
-            _TextureData.Add(new TextureData("D:\\Develop\\Source\\GL\\matis_hd_obj\\Frame_00015_textured.jpg"));
-
-            Obj obj16 = new Obj();
-            lines = File.ReadAllLines("D:\\Develop\\Source\\GL\\matis_hd_obj\\Frame_00016_textured.obj");
-            obj16.LoadObj(lines);
-            _ObjFiles.Add(obj16);
-            _TextureData.Add(new TextureData("D:\\Develop\\Source\\GL\\matis_hd_obj\\Frame_00016_textured.jpg"));
-
-            Obj obj17 = new Obj();
-            lines = File.ReadAllLines("D:\\Develop\\Source\\GL\\matis_hd_obj\\Frame_00017_textured.obj");
-            obj17.LoadObj(lines);
-            _ObjFiles.Add(obj17);
-            _TextureData.Add(new TextureData("D:\\Develop\\Source\\GL\\matis_hd_obj\\Frame_00017_textured.jpg"));
-
-            Obj obj18 = new Obj();
-            lines = File.ReadAllLines("D:\\Develop\\Source\\GL\\matis_hd_obj\\Frame_00018_textured.obj");
-            obj18.LoadObj(lines);
-            _ObjFiles.Add(obj18);
-            _TextureData.Add(new TextureData("D:\\Develop\\Source\\GL\\matis_hd_obj\\Frame_00018_textured.jpg"));
-
-            Obj obj19 = new Obj();
-            lines = File.ReadAllLines("D:\\Develop\\Source\\GL\\matis_hd_obj\\Frame_00019_textured.obj");
-            obj19.LoadObj(lines);
-            _ObjFiles.Add(obj19);
-            _TextureData.Add(new TextureData("D:\\Develop\\Source\\GL\\matis_hd_obj\\Frame_00019_textured.jpg"));
-
-            Obj obj20 = new Obj();
-            lines = File.ReadAllLines("D:\\Develop\\Source\\GL\\matis_hd_obj\\Frame_00020_textured.obj");
-            obj20.LoadObj(lines);
-            _ObjFiles.Add(obj20);
-            _TextureData.Add(new TextureData("D:\\Develop\\Source\\GL\\matis_hd_obj\\Frame_00020_textured.jpg"));
-
-            Obj obj21 = new Obj();
-            lines = File.ReadAllLines("D:\\Develop\\Source\\GL\\matis_hd_obj\\Frame_00021_textured.obj");
-            obj21.LoadObj(lines);
-            _ObjFiles.Add(obj21);
-            _TextureData.Add(new TextureData("D:\\Develop\\Source\\GL\\matis_hd_obj\\Frame_00021_textured.jpg"));
-
-            Obj obj22 = new Obj();
-            lines = File.ReadAllLines("D:\\Develop\\Source\\GL\\matis_hd_obj\\Frame_00022_textured.obj");
-            obj22.LoadObj(lines);
-            _ObjFiles.Add(obj22);
-            _TextureData.Add(new TextureData("D:\\Develop\\Source\\GL\\matis_hd_obj\\Frame_00022_textured.jpg"));
-
-            Obj obj23 = new Obj();
-            lines = File.ReadAllLines("D:\\Develop\\Source\\GL\\matis_hd_obj\\Frame_00023_textured.obj");
-            obj23.LoadObj(lines);
-            _ObjFiles.Add(obj23);
-            _TextureData.Add(new TextureData("D:\\Develop\\Source\\GL\\matis_hd_obj\\Frame_00023_textured.jpg"));
-
-            Obj obj24 = new Obj();
-            lines = File.ReadAllLines("D:\\Develop\\Source\\GL\\matis_hd_obj\\Frame_00024_textured.obj");
-            obj24.LoadObj(lines);
-            _ObjFiles.Add(obj24);
-            _TextureData.Add(new TextureData("D:\\Develop\\Source\\GL\\matis_hd_obj\\Frame_00024_textured.jpg"));
-
-            Obj obj25 = new Obj();
-            lines = File.ReadAllLines("D:\\Develop\\Source\\GL\\matis_hd_obj\\Frame_00025_textured.obj");
-            obj25.LoadObj(lines);
-            _ObjFiles.Add(obj25);
-            _TextureData.Add(new TextureData("D:\\Develop\\Source\\GL\\matis_hd_obj\\Frame_00025_textured.jpg"));
-
-            SetSelectedObj(0);
-
-
-            //Bitmap bmp = new Bitmap("C:\\Users\\oguzz\\Desktop\\GL\\texture.png");
-            //Rectangle rect = new Rectangle(0, 0, bmp.Width, bmp.Height);
-            // _SelectedTextureData = bmp.LockBits(rect,System.Drawing.Imaging.ImageLockMode.ReadOnly,System.Drawing.Imaging.PixelFormat.Format24bppRgb);
-            //bmp.UnlockBits(_SelectedTextureData);
-
-            _AverageX = (float)_SelectedObjFile.VertexList.Average((x) => x.X);
-            _AverageY = (float)_SelectedObjFile.VertexList.Average((x) => x.Y);
-            _AverageZ = (float)_SelectedObjFile.VertexList.Average((x) => x.Z);
-        }
-
         private void SetSelectedObj(int index)
         {
             _SelectedObjFile = _ObjFiles[index];
-            _SelectedTextureData = _TextureData[index];
+
+            if (_TextureData!= null && _TextureData.Count > index)
+            {
+                _SelectedTextureData = _TextureData[index];
+            }
         }
 
         private void DrawSelectedObjFile()
@@ -291,23 +125,44 @@ namespace VVPlayer
             GL.DepthFunc(DepthFunction.Less); // Enable Correct Z Drawings
 
             // Rotating
-            GL.Rotate(_VerticalRotation, 0, 0, 1);
-            GL.Rotate(_HorizontalRotation, 0, 1, 0);
+            GL.Rotate(_DirXRotation, 0, 0, 1);
+            GL.Rotate(_DirYRotation, 0, 1, 0);
+            GL.Rotate(_DirZRotation, 1, 0, 0);
 
             GL.Translate(-_AverageX, -_AverageY, -_AverageZ);
 
-            // Texture Info
-            GL.Enable(EnableCap.Texture2D);
 
-            if (_SelectedTextureData != null)
+            if (_SelectedTextureData != null && (_SelectedTextureData.Bmp != null || _SelectedTextureData.Data != null))
             {
+
+                // Texture Info
+                GL.Enable(EnableCap.Texture2D);
 
                 GL.DeleteTexture(_TextID);
 
-                _TextID = InitTextures();
-                //BindTexture(_TextID);
+                if (_TextureDataType == eTextureDataType.Float)
+                {
+                    _TextID = InitTextures();
+                }
+                else if (_TextureDataType == eTextureDataType.BMP)
+                {
+                    _TextID = InitTexturesWithBitmapData();
+                }
 
-                GL.Begin(BeginMode.Triangles);
+                if (_SelectedObjFile.FaceList.First().VertexIndexList.Count() == 3)
+                {
+                    GL.Begin(BeginMode.Triangles);
+
+                }
+                else if (_SelectedObjFile.FaceList.First().VertexIndexList.Count() == 4)
+                {
+                    GL.Begin(BeginMode.Quads);
+
+                }
+                else
+                {
+                    GL.Begin(BeginMode.Points);
+                }
 
                 GL.Color3(Color.White);
 
@@ -329,7 +184,20 @@ namespace VVPlayer
             }
             else if (_SelectedObjFile != null)
             {
-                GL.Begin(BeginMode.Triangles);
+                if (_SelectedObjFile.FaceList.First().VertexIndexList.Count() == 3)
+                {
+                    GL.Begin(BeginMode.Triangles);
+
+                }
+                else if (_SelectedObjFile.FaceList.First().VertexIndexList.Count() == 4)
+                {
+                    GL.Begin(BeginMode.Quads);
+
+                }
+                else
+                {
+                    GL.Begin(BeginMode.Points);
+                }
 
                 for (int i = 0; i < _SelectedObjFile.FaceList.Count; i++)
                 {
@@ -377,6 +245,31 @@ namespace VVPlayer
             // data not needed from here on, OpenGL has the data
         }
 
+        private int InitTexturesWithBitmapData()
+        {
+            int texture;
+
+            GL.Hint(HintTarget.PerspectiveCorrectionHint, HintMode.Nicest);
+
+            GL.GenTextures(1, out texture);
+            GL.BindTexture(TextureTarget.Texture2D, texture);
+
+            BitmapData data = _SelectedTextureData.Bmp.LockBits(new System.Drawing.Rectangle(0, 0, _SelectedTextureData.Bmp.Width, _SelectedTextureData.Bmp.Height),
+                ImageLockMode.ReadOnly, System.Drawing.Imaging.PixelFormat.Format32bppArgb);
+
+            GL.TexImage2D(TextureTarget.Texture2D, 0, PixelInternalFormat.Rgba, data.Width, data.Height, 0,
+                OpenTK.Graphics.OpenGL.PixelFormat.Bgra, PixelType.UnsignedByte, data.Scan0);
+            _SelectedTextureData.Bmp.UnlockBits(data);
+
+
+            GL.TexParameter(TextureTarget.Texture2D, TextureParameterName.TextureMinFilter, (int)TextureMinFilter.Linear);
+            GL.TexParameter(TextureTarget.Texture2D, TextureParameterName.TextureMagFilter, (int)TextureMagFilter.Linear);
+            GL.TexParameter(TextureTarget.Texture2D, TextureParameterName.TextureWrapS, (int)TextureWrapMode.Repeat);
+            GL.TexParameter(TextureTarget.Texture2D, TextureParameterName.TextureWrapT, (int)TextureWrapMode.Repeat);
+
+            return texture;
+        }
+
         private void SetDefaultViewParameters()
         {
             if (_SelectedObjFile != null)
@@ -384,8 +277,8 @@ namespace VVPlayer
                 List<double> maxDistList = new List<double>() { _SelectedObjFile.Size.XSize, _SelectedObjFile.Size.YSize, _SelectedObjFile.Size.ZSize };
                 _LookAtDist = maxDistList.Max() * 1.1;
                 //_LookAtDist = 100;
-                _VerticalRotation = 0;
-                _HorizontalRotation = 0;
+                _DirXRotation = 0;
+                _DirYRotation = 0;
 
                 _AverageX = (float)_SelectedObjFile.VertexList.Average((x) => x.X);
                 _AverageY = (float)_SelectedObjFile.VertexList.Average((x) => x.Y);
@@ -393,12 +286,15 @@ namespace VVPlayer
             }
         }
 
-        #endregion
         private void PrepareThreads()
         {
             PrepareAutoRotateThread();
             PreparePlayVVThread();
 
+            if (chkAutoRotate.Checked)
+            {
+                _AutoRotate.Start();
+            }
         }
 
         private void PreparePlayVVThread()
@@ -409,7 +305,7 @@ namespace VVPlayer
                 {
                     if (_IsGLControlLoaded && !_IsGLControlClicked)
                     {
-                        Thread.Sleep(65);
+                        Thread.Sleep(75);
                         int selectedIndex = _ObjFiles.IndexOf(_SelectedObjFile);
                         int nextIndex;
                         if (selectedIndex == _ObjFiles.Count - 1)
@@ -463,24 +359,29 @@ namespace VVPlayer
                             AutoRotateSpeed = 2;
                         }
 
-                        _HorizontalRotation += AutoRotateSpeed;
+                        _DirYRotation += AutoRotateSpeed;
 
-                        if (_HorizontalRotation >= 360)
+                        if (_DirYRotation >= 360)
                         {
-                            _HorizontalRotation = _HorizontalRotation - 360;
+                            _DirYRotation = _DirYRotation - 360;
                         }
 
-                        this.nUDHorizontal.Invoke((MethodInvoker)delegate {
+
+                        this.nUDXRotation.Invoke((MethodInvoker)delegate {
                             // Running on the UI thread
-                            nUDHorizontal.Value = Convert.ToDecimal(_HorizontalRotation);
+                            nUDXRotation.Value = Convert.ToDecimal(_DirXRotation);
+                        });
+
+                        this.nUDYRotation.Invoke((MethodInvoker)delegate {
+                            // Running on the UI thread
+                            nUDYRotation.Value = Convert.ToDecimal(_DirYRotation);
                         });
 
 
-                        this.nUDVertical.Invoke((MethodInvoker)delegate {
+                        this.nUDZRotation.Invoke((MethodInvoker)delegate {
                             // Running on the UI thread
-                            nUDVertical.Value = Convert.ToDecimal(_VerticalRotation);
+                            nUDZRotation.Value = Convert.ToDecimal(_DirZRotation);
                         });
-
 
                         glControlMain.Invalidate();
                     }
@@ -490,8 +391,12 @@ namespace VVPlayer
 
         private void Rec2Form()
         {
-            nUDHorizontal.Value = (decimal)_HorizontalRotation;
-            nUDVertical.Value = (decimal)_VerticalRotation;
+            nUDXRotation.Value = (decimal)_DirXRotation;
+            nUDYRotation.Value = (decimal)_DirYRotation;
+            nUDZRotation.Value = (decimal)_DirZRotation;
+
+            cmbTextureMethod.SelectedIndex = (int)_TextureDataType;
+            cmbTextureExtension.SelectedIndex = (int)_TextureExtension;
 
         }
 
@@ -502,10 +407,20 @@ namespace VVPlayer
 
         private void PrepareUI()
         {
+            cmbTextureMethod.Items.Clear();
+            cmbTextureMethod.Items.Add("Bmp");
+            cmbTextureMethod.Items.Add("Float");
+
+            cmbTextureExtension.Items.Clear();
+            cmbTextureExtension.Items.Add("Bmp");
+            cmbTextureExtension.Items.Add("Jpg");
+            cmbTextureExtension.Items.Add("Png");
+
             // Set Defaults
             chkAutoRotate.Checked = false;
-            nUDHorizontal.Enabled = true;
-            nUDVertical.Enabled = true;
+            nUDXRotation.Enabled = true;
+            nUDYRotation.Enabled = true;
+            nUDZRotation.Enabled = true;
 
             chkInvertMouseWheel.Checked = false;
             rbMediumSensitivityWheel.Checked = true;
@@ -513,23 +428,32 @@ namespace VVPlayer
             rbARMediumSpeed.Checked = true;
 
             // Set Max and Min Values of the NumericalUpDown
-            nUDHorizontal.Minimum = -decimal.MaxValue;
-            nUDVertical.Minimum = -decimal.MaxValue;
+            nUDXRotation.Minimum = -decimal.MaxValue;
+            nUDYRotation.Minimum = -decimal.MaxValue;
+            nUDZRotation.Minimum = -decimal.MaxValue;
 
-            nUDHorizontal.Maximum = decimal.MaxValue;
-            nUDVertical.Maximum = decimal.MaxValue;
+            nUDXRotation.Maximum = decimal.MaxValue;
+            nUDYRotation.Maximum = decimal.MaxValue;
+            nUDZRotation.Maximum = decimal.MaxValue;
 
-            trackBarAnimation.Minimum = 0;
-            trackBarAnimation.Maximum = _ObjFiles.Count() - 1;
-            trackBarAnimation.Value = 0;
+            trackBarAnimation.Enabled = false;
+            if (_ObjFiles != null)
+            {
+                trackBarAnimation.Minimum = 0;
+                trackBarAnimation.Maximum = _ObjFiles.Count() - 1;
+                trackBarAnimation.Value = 0;
+            }
+
+            btnStartStopAnimation.Text = "Start Animation";
         }
 
         private void SubscribeToEvents()
         {
             glControlMain.Load += GlControlMain_Load;
             glControlMain.Paint += GlControlMain_Paint;
-            nUDHorizontal.ValueChanged += NUD_ValueChanged;
-            nUDVertical.ValueChanged += NUD_ValueChanged;
+            nUDXRotation.ValueChanged += NUD_ValueChanged;
+            nUDYRotation.ValueChanged += NUD_ValueChanged;
+            nUDZRotation.ValueChanged += NUD_ValueChanged;
             glControlMain.MouseDown += GlControlMain_MouseDown;
             glControlMain.MouseUp += GlControlMain_MouseUp;
             glControlMain.MouseMove += GlControlMain_MouseMove;
@@ -538,14 +462,18 @@ namespace VVPlayer
             chkAutoRotate.CheckedChanged += ChkAutoRotate_CheckedChanged;
             btnStartStopAnimation.Click += BtnStartStopAnimation_Click;
             trackBarAnimation.ValueChanged += TrackBarAnimation_ValueChanged;
+            btnLoadVV.Click += BtnLoadVV_Click;
+            cmbTextureExtension.SelectedIndexChanged += CmbTextureExtension_SelectedIndexChanged;
+            cmbTextureMethod.SelectedIndexChanged += CmbTextureMethod_SelectedIndexChanged;
         }
 
         private void UnsubscribeFromEvents()
         {
             glControlMain.Load -= GlControlMain_Load;
             glControlMain.Paint -= GlControlMain_Paint;
-            nUDHorizontal.ValueChanged -= NUD_ValueChanged;
-            nUDVertical.ValueChanged -= NUD_ValueChanged;
+            nUDXRotation.ValueChanged -= NUD_ValueChanged;
+            nUDYRotation.ValueChanged -= NUD_ValueChanged;
+            nUDZRotation.ValueChanged -= NUD_ValueChanged;
             glControlMain.MouseDown -= GlControlMain_MouseDown;
             glControlMain.MouseUp -= GlControlMain_MouseUp;
             glControlMain.MouseMove -= GlControlMain_MouseMove;
@@ -554,11 +482,85 @@ namespace VVPlayer
             chkAutoRotate.CheckedChanged -= ChkAutoRotate_CheckedChanged;
             btnStartStopAnimation.Click -= BtnStartStopAnimation_Click;
             trackBarAnimation.ValueChanged -= TrackBarAnimation_ValueChanged;
+            btnLoadVV.Click -= BtnLoadVV_Click;
+            cmbTextureExtension.SelectedIndexChanged -= CmbTextureExtension_SelectedIndexChanged;
+            cmbTextureMethod.SelectedIndexChanged -= CmbTextureMethod_SelectedIndexChanged;
         }
 
         #endregion
 
         #region Events
+
+        private void CmbTextureMethod_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            _TextureDataType = (eTextureDataType)cmbTextureMethod.SelectedIndex;
+        }
+
+        private void CmbTextureExtension_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            _TextureExtension = (eTextureExtension)cmbTextureExtension.SelectedIndex;
+        }
+
+        private void BtnLoadVV_Click(object sender, EventArgs e)
+        {
+            OpenFileDialog ofd = new OpenFileDialog();
+            ofd.InitialDirectory = Environment.GetFolderPath(Environment.SpecialFolder.Desktop);
+            ofd.Multiselect = true;
+            ofd.Filter = "obj files (*.obj)|*.obj|All files (*.*)|*.*";
+            ofd.InitialDirectory = _CurrentDirectory;
+
+            if (ofd.ShowDialog() == DialogResult.OK)
+            {
+                _CurrentDirectory = Path.GetDirectoryName(ofd.FileName);
+
+                _ObjFiles = new List<Obj>();
+                _TextureData = new List<TextureData>();
+                for (int i = 0; i < ofd.FileNames.Count(); i++)
+                {
+                    string path = ofd.FileNames[i];
+
+                    Obj obj1 = new Obj();
+                    string[] lines = File.ReadAllLines(path);
+                    obj1.LoadObj(lines);
+                    _ObjFiles.Add(obj1);
+
+                    string texturePath = path.Substring(0, path.Length - 4);
+
+                    if (_TextureExtension == eTextureExtension.BMP)
+                    {
+                        texturePath = texturePath + ".bmp";
+                    }
+                    else if (_TextureExtension == eTextureExtension.JPG)
+                    {
+                        texturePath = texturePath + ".jpg";
+                    }
+                    else if (_TextureExtension == eTextureExtension.PNG)
+                    {
+                        texturePath = texturePath + ".png";
+                    }
+
+
+
+                    if (File.Exists(texturePath))
+                    {
+                        _TextureData.Add(new TextureData(texturePath, _TextureDataType));
+                    }
+                }
+
+                trackBarAnimation.Enabled = true;
+
+                trackBarAnimation.Minimum = 0;
+                trackBarAnimation.Maximum = _ObjFiles.Count() - 1;
+                trackBarAnimation.Value = 0;
+                SetSelectedObj(0);
+
+                SetDefaultViewParameters();
+
+                DrawSelectedObjFile();
+
+                glControlMain.Invalidate();
+            }
+        }
 
         private void MainForm_FormClosing(object sender, FormClosingEventArgs e)
         {
@@ -569,8 +571,9 @@ namespace VVPlayer
 
         private void ChkAutoRotate_CheckedChanged(object sender, EventArgs e)
         {
-            nUDHorizontal.Enabled = !chkAutoRotate.Checked;
-            nUDVertical.Enabled = !chkAutoRotate.Checked;
+            nUDXRotation.Enabled = !chkAutoRotate.Checked;
+            nUDYRotation.Enabled = !chkAutoRotate.Checked;
+            nUDZRotation.Enabled = !chkAutoRotate.Checked;
 
             if (chkAutoRotate.Checked)
             {
@@ -598,12 +601,18 @@ namespace VVPlayer
         private void GlControlMain_Load(object sender, EventArgs e)
         {
             _IsGLControlLoaded = true;
+
+            // Clear Buffers
+            GL.Clear(ClearBufferMask.ColorBufferBit);
+            GL.Clear(ClearBufferMask.DepthBufferBit);
+            GL.ClearColor(SystemColors.Control);
         }
 
         private void NUD_ValueChanged(object sender, EventArgs e)
         {
-            _VerticalRotation = Convert.ToDouble(nUDVertical.Value);
-            _HorizontalRotation = Convert.ToDouble(nUDHorizontal.Value);
+            _DirXRotation = Convert.ToDouble(nUDXRotation.Value);
+            _DirYRotation = Convert.ToDouble(nUDYRotation.Value);
+            _DirZRotation = Convert.ToDouble(nUDZRotation.Value);
             glControlMain.Invalidate();
         }
 
@@ -638,8 +647,9 @@ namespace VVPlayer
                 }
 
 
-                _VerticalRotation += -dir * Convert.ToDouble(_InitialPoint.Y - newPt.Y) / sensitivity;
-                _HorizontalRotation += dir * Convert.ToDouble(_InitialPoint.X - newPt.X) / sensitivity;
+                _DirXRotation += -dir * Convert.ToDouble(_InitialPoint.Y - newPt.Y) / sensitivity;
+                _DirYRotation += dir * Convert.ToDouble(_InitialPoint.X - newPt.X) / sensitivity;
+
                 Rec2Form();
                 glControlMain.Invalidate();
                 SubscribeToEvents();
